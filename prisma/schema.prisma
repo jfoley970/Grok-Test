@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  owner
+  service_writer
+}
+
+enum ListingStatus {
+  active
+  reserved
+  sold
+  traded
+}
+
+enum OrderStatus {
+  pending
+  paid
+  cancelled
+}
+
+enum TradeStatus {
+  pending
+  accepted
+  rejected
+  cancelled
+  awaiting_payment
+}
+
+model Shop {
+  id               String   @id @default(cuid())
+  name             String
+  cityRegion       String
+  phone            String?
+  stripeAccountId  String?
+  chargesEnabled   Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  users              User[]
+  listings           Listing[]
+  buyOrders          Order[]      @relation("BuyerShop")
+  sellOrders         Order[]      @relation("SellerShop")
+  tradeOffersFrom    TradeOffer[] @relation("TradeFromShop")
+  tradeOffersTo      TradeOffer[] @relation("TradeToShop")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole
+  shopId       String
+  shop         Shop     @relation(fields: [shopId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  listingsPosted Listing[]    @relation("PostedBy")
+  ordersPlaced   Order[]      @relation("PlacedBy")
+  tradeOffers    TradeOffer[] @relation("CreatedBy")
+}
+
+model Listing {
+  id              String        @id @default(cuid())
+  title           String
+  partNumber      String
+  condition       String
+  fitmentNotes    String
+  quantity        Int           @default(1)
+  priceCents      Int
+  shippingNotes   String?
+  status          ListingStatus @default(active)
+  shopId          String
+  shop            Shop          @relation(fields: [shopId], references: [id])
+  postedByUserId  String
+  postedBy        User          @relation("PostedBy", fields: [postedByUserId], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  orders              Order[]
+  tradeTargets        TradeOffer[] @relation("TargetListing")
+}
+
+model Order {
+  id                    String      @id @default(cuid())
+  listingId             String
+  listing               Listing     @relation(fields: [listingId], references: [id])
+  buyerShopId           String
+  buyerShop             Shop        @relation("BuyerShop", fields: [buyerShopId], references: [id])
+  sellerShopId          String
+  sellerShop            Shop        @relation("SellerShop", fields: [sellerShopId], references: [id])
+  placedByUserId        String
+  placedBy              User        @relation("PlacedBy", fields: [placedByUserId], references: [id])
+  amountCents           Int
+  status                OrderStatus @default(pending)
+  stripeCheckoutSession String?
+  stripePaymentIntent   String?
+  tradeOfferId          String?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+}
+
+model TradeOffer {
+  id                 String      @id @default(cuid())
+  fromShopId         String
+  fromShop           Shop        @relation("TradeFromShop", fields: [fromShopId], references: [id])
+  toShopId           String
+  toShop             Shop        @relation("TradeToShop", fields: [toShopId], references: [id])
+  targetListingId    String
+  targetListing      Listing     @relation("TargetListing", fields: [targetListingId], references: [id])
+  offeredListingIds  String
+  cashCents          Int         @default(0)
+  status             TradeStatus @default(pending)
+  createdByUserId    String
+  createdBy          User        @relation("CreatedBy", fields: [createdByUserId], references: [id])
+  stripeCheckoutSession String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+}
