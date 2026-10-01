@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { formatMoney } from "@/lib/money";
 import { BuyButton } from "./buy-button";
-import { TradeForm } from "./trade-form";
 
 export const dynamic = "force-dynamic";
 
@@ -22,17 +21,10 @@ export default async function ListingDetailPage({
   if (!listing) notFound();
 
   const isOwn = session?.user?.shopId === listing.shopId;
-  const myListings =
-    session?.user && !isOwn
-      ? await prisma.listing.findMany({
-          where: { shopId: session.user.shopId, status: "active" },
-          orderBy: { createdAt: "desc" },
-        })
-      : [];
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link href="/browse" className="text-sm text-[var(--steel)] hover:text-[var(--signal)]">
+      <Link href="/browse" className="text-sm text-[var(--muted)] hover:text-[var(--signal)]">
         ← Back to board
       </Link>
       <h1 className="mt-4 font-[family-name:var(--font-display)] text-5xl tracking-wide">
@@ -57,7 +49,13 @@ export default async function ListingDetailPage({
           <dd className="capitalize">{listing.status}</dd>
         </div>
         <div className="sm:col-span-2">
-          <dt className="text-sm text-[var(--muted)]">Fitment</dt>
+          <dt className="text-sm text-[var(--muted)]">Vehicle</dt>
+          <dd>
+            {listing.year} {listing.make} {listing.model}
+          </dd>
+        </div>
+        <div className="sm:col-span-2">
+          <dt className="text-sm text-[var(--muted)]">Fitment notes</dt>
           <dd>{listing.fitmentNotes}</dd>
         </div>
         {listing.shippingNotes && (
@@ -78,18 +76,17 @@ export default async function ListingDetailPage({
       </dl>
 
       {listing.status === "active" && session?.user && !isOwn && (
-        <div className="mt-10 space-y-8 border-t border-[var(--line)]/15 pt-8">
+        <div className="mt-10 border-t border-[var(--steel)] pt-8">
           <BuyButton listingId={listing.id} canBuy={listing.shop.chargesEnabled} />
-          <TradeForm listingId={listing.id} myListings={myListings} />
         </div>
       )}
 
       {listing.status === "active" && !session?.user && (
-        <p className="mt-8 text-[var(--steel)]">
-          <Link href="/auth/signin" className="text-[var(--signal)] underline">
+        <p className="mt-8 text-[var(--muted)]">
+          <Link href="/auth/signin" className="text-[var(--signal)]">
             Sign in
           </Link>{" "}
-          to buy or propose a trade.
+          to buy this part.
         </p>
       )}
     </div>

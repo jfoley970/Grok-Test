@@ -16,7 +16,6 @@ enum ListingStatus {
   active
   reserved
   sold
-  traded
 }
 
 enum OrderStatus {
@@ -25,17 +24,9 @@ enum OrderStatus {
   cancelled
 }
 
-enum TradeStatus {
-  pending
-  accepted
-  rejected
-  cancelled
-  awaiting_payment
-}
-
 model Shop {
   id               String   @id @default(cuid())
-  name             String
+  name             String   @unique
   cityRegion       String
   phone            String?
   stripeAccountId  String?
@@ -47,8 +38,6 @@ model Shop {
   listings           Listing[]
   buyOrders          Order[]      @relation("BuyerShop")
   sellOrders         Order[]      @relation("SellerShop")
-  tradeOffersFrom    TradeOffer[] @relation("TradeFromShop")
-  tradeOffersTo      TradeOffer[] @relation("TradeToShop")
 }
 
 model User {
@@ -62,9 +51,8 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  listingsPosted Listing[]    @relation("PostedBy")
-  ordersPlaced   Order[]      @relation("PlacedBy")
-  tradeOffers    TradeOffer[] @relation("CreatedBy")
+  listingsPosted Listing[] @relation("PostedBy")
+  ordersPlaced   Order[]   @relation("PlacedBy")
 }
 
 model Listing {
@@ -72,6 +60,9 @@ model Listing {
   title           String
   partNumber      String
   condition       String
+  make            String
+  model           String
+  year            Int
   fitmentNotes    String
   quantity        Int           @default(1)
   priceCents      Int
@@ -84,8 +75,7 @@ model Listing {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  orders              Order[]
-  tradeTargets        TradeOffer[] @relation("TargetListing")
+  orders Order[]
 }
 
 model Order {
@@ -102,25 +92,6 @@ model Order {
   status                OrderStatus @default(pending)
   stripeCheckoutSession String?
   stripePaymentIntent   String?
-  tradeOfferId          String?
   createdAt             DateTime    @default(now())
   updatedAt             DateTime    @updatedAt
-}
-
-model TradeOffer {
-  id                 String      @id @default(cuid())
-  fromShopId         String
-  fromShop           Shop        @relation("TradeFromShop", fields: [fromShopId], references: [id])
-  toShopId           String
-  toShop             Shop        @relation("TradeToShop", fields: [toShopId], references: [id])
-  targetListingId    String
-  targetListing      Listing     @relation("TargetListing", fields: [targetListingId], references: [id])
-  offeredListingIds  String
-  cashCents          Int         @default(0)
-  status             TradeStatus @default(pending)
-  createdByUserId    String
-  createdBy          User        @relation("CreatedBy", fields: [createdByUserId], references: [id])
-  stripeCheckoutSession String?
-  createdAt          DateTime    @default(now())
-  updatedAt          DateTime    @updatedAt
 }

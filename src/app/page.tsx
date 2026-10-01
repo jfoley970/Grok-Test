@@ -20,24 +20,24 @@ export default function HomePage() {
           For service writers &amp; shop owners
         </p>
         <h1 className="font-[family-name:var(--font-display)] text-6xl leading-none tracking-wide sm:text-8xl">
-          BenchStock
+          SURPLUS
         </h1>
         <p className="mt-5 max-w-xl text-lg text-[var(--paper)]/85">
-          Move surplus auto parts between shops. List what&apos;s sitting on the shelf, buy what you need,
-          or trade inventory — paid in-app with Stripe.
+          Move surplus auto parts between shops. List what&apos;s sitting on the shelf or buy what you need,
+          paid in-app with Stripe.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href="/browse"
             className="rounded bg-[var(--signal)] px-5 py-3 font-medium text-[var(--ink)] transition hover:brightness-110"
           >
-            Browse parts
+            Buy
           </Link>
           <Link
             href="/sell"
             className="rounded border border-[var(--paper)]/40 px-5 py-3 text-[var(--paper)] transition hover:border-[var(--paper)]"
           >
-            List surplus
+            Sell
           </Link>
         </div>
       </div>

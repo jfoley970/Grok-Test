@@ -15,8 +15,8 @@ const body = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "BenchStock — Shop-to-shop auto parts",
-  description: "Mechanic shops list surplus parts, buy with Stripe, and trade inventory.",
+  title: "Surplus — Shop-to-shop auto parts",
+  description: "Mechanic shops list surplus parts and buy with Stripe.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

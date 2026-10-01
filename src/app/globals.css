@@ -19,8 +19,8 @@
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
   font-family: var(--font-body), Georgia, serif;
 }
 

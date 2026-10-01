@@ -52,11 +52,6 @@ export async function POST(req: Request) {
           ]);
         }
       }
-
-      if (type === "trade_cash" && session.metadata?.tradeOfferId) {
-        const tradeId = session.metadata.tradeOfferId;
-        await completeTrade(tradeId);
-      }
     }
 
     if (event.type === "account.updated") {
@@ -74,28 +69,4 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ received: true });
-}
-
-async function completeTrade(tradeId: string) {
-  const trade = await prisma.tradeOffer.findUnique({ where: { id: tradeId } });
-  if (!trade || trade.status === "accepted") return;
-
-  const offeredIds = JSON.parse(trade.offeredListingIds) as string[];
-
-  await prisma.$transaction([
-    prisma.tradeOffer.update({
-      where: { id: tradeId },
-      data: { status: "accepted" },
-    }),
-    prisma.listing.update({
-      where: { id: trade.targetListingId },
-      data: { status: "traded" },
-    }),
-    ...offeredIds.map((id) =>
-      prisma.listing.update({
-        where: { id },
-        data: { status: "traded" },
-      }),
-    ),
-  ]);
 }

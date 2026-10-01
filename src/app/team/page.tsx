@@ -14,14 +14,14 @@ export default async function TeamPage() {
   return (
     <div className="mx-auto max-w-xl px-4 py-10">
       <h1 className="font-[family-name:var(--font-display)] text-5xl tracking-wide">Team</h1>
-      <p className="mt-2 text-[var(--steel)]">
+      <p className="mt-2 text-[var(--muted)]">
         Add service writer logins so they can post surplus inventory for {session.user.shopName}.
       </p>
       <ul className="mt-8 space-y-3">
         {members.map((m) => (
-          <li key={m.id} className="rounded border border-[var(--line)]/15 bg-[var(--field)] px-4 py-3">
+          <li key={m.id} className="border border-[var(--steel)] bg-[var(--panel)] px-4 py-3">
             <div className="font-medium">{m.name}</div>
-            <div className="text-sm text-[var(--steel)]">
+            <div className="text-sm text-[var(--muted)]">
               {m.email} · {m.role === "owner" ? "Owner" : "Service writer"}
             </div>
           </li>

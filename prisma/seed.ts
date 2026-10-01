@@ -4,7 +4,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.tradeOffer.deleteMany();
   await prisma.order.deleteMany();
   await prisma.listing.deleteMany();
   await prisma.user.deleteMany();
@@ -75,6 +74,9 @@ async function main() {
         title: "OEM front brake pads — Toyota Camry",
         partNumber: "04465-33470",
         condition: "New",
+        make: "Toyota",
+        model: "Camry",
+        year: 2020,
         fitmentNotes: "2018–2023 Camry SE/XSE",
         quantity: 2,
         priceCents: 4800,
@@ -86,6 +88,9 @@ async function main() {
         title: "Alternator — Ford F-150 5.0",
         partNumber: "FL3Z-10346-A",
         condition: "Used — good",
+        make: "Ford",
+        model: "F-150",
+        year: 2018,
         fitmentNotes: "2015–2020 F-150 5.0L Coyote",
         quantity: 1,
         priceCents: 12500,
@@ -97,6 +102,9 @@ async function main() {
         title: "Radiator assembly — Honda Civic",
         partNumber: "19010-5BA-A01",
         condition: "New open box",
+        make: "Honda",
+        model: "Civic",
+        year: 2019,
         fitmentNotes: "2016–2021 Civic 1.5T",
         quantity: 1,
         priceCents: 18900,
@@ -107,6 +115,9 @@ async function main() {
         title: "Ignition coil pack set",
         partNumber: "UF648",
         condition: "New",
+        make: "Chevrolet",
+        model: "Equinox",
+        year: 2017,
         fitmentNotes: "GM 3.6 LLT / LFX — verify before order",
         quantity: 4,
         priceCents: 9200,

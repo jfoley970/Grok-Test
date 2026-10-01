@@ -29,10 +29,10 @@ export default async function StripeSettingsPage({
   return (
     <div className="mx-auto max-w-xl px-4 py-10">
       <h1 className="font-[family-name:var(--font-display)] text-5xl tracking-wide">Stripe Connect</h1>
-      <p className="mt-2 text-[var(--steel)]">
+      <p className="mt-2 text-[var(--muted)]">
         Owners connect an Express account so other shops can buy your surplus parts in-app.
       </p>
-      <dl className="mt-8 space-y-3 rounded border border-[var(--line)]/15 bg-[var(--field)] p-5">
+      <dl className="mt-8 space-y-3 border border-[var(--steel)] bg-[var(--panel)] p-5">
         <div>
           <dt className="text-sm text-[var(--muted)]">Shop</dt>
           <dd>{shop.name}</dd>
@@ -49,7 +49,7 @@ export default async function StripeSettingsPage({
       <div className="mt-6">
         <ConnectButton />
       </div>
-      <p className="mt-6 text-sm text-[var(--steel)]">
+      <p className="mt-6 text-sm text-[var(--muted)]">
         Use Stripe test mode keys in <code>.env</code>. Forward webhooks with the Stripe CLI to{" "}
         <code>/api/stripe/webhook</code>.
       </p>

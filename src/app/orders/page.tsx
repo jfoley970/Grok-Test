@@ -23,9 +23,9 @@ export default async function OrdersPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
       <h1 className="font-[family-name:var(--font-display)] text-5xl tracking-wide">Orders</h1>
-      <p className="mt-2 text-[var(--steel)]">Purchases involving your shop.</p>
-      <ul className="mt-8 divide-y divide-[var(--line)]/15 border-y border-[var(--line)]/15">
-        {orders.length === 0 && <li className="py-8 text-[var(--steel)]">No orders yet.</li>}
+      <p className="mt-2 text-[var(--muted)]">Purchases involving your shop.</p>
+      <ul className="mt-8 divide-y divide-[var(--steel)]/50 border-y border-[var(--steel)]">
+        {orders.length === 0 && <li className="py-8 text-[var(--muted)]">No orders yet.</li>}
         {orders.map((o) => {
           const buying = o.buyerShopId === session.user.shopId;
           return (
@@ -34,7 +34,7 @@ export default async function OrdersPage() {
                 <Link href={`/listings/${o.listingId}`} className="font-medium text-[var(--signal)] underline">
                   {o.listing.title}
                 </Link>
-                <div className="mt-1 text-sm text-[var(--steel)]">
+                <div className="mt-1 text-sm text-[var(--muted)]">
                   {buying ? "Bought from" : "Sold to"} {buying ? o.sellerShop.name : o.buyerShop.name} ·{" "}
                   <span className="capitalize">{o.status}</span>
                 </div>

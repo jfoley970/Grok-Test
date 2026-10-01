@@ -23,16 +23,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        email: { label: "Email", type: "email" },
+        shop: { label: "Shop", type: "text" },
+        email: { label: "Username or email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const email = credentials?.email as string | undefined;
-        const password = credentials?.password as string | undefined;
-        if (!email || !password) return null;
+        const shopName = String(credentials?.shop ?? "").trim();
+        const email = String(credentials?.email ?? "").trim().toLowerCase();
+        const password = String(credentials?.password ?? "");
+        if (!shopName || !email || !password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { email: email.toLowerCase() },
+        const shops = await prisma.$queryRaw<Array<{ id: string }>>`
+          SELECT id FROM Shop WHERE name = ${shopName} COLLATE NOCASE LIMIT 1
+        `;
+        const shopId = shops[0]?.id;
+        if (!shopId) return null;
+
+        const user = await prisma.user.findFirst({
+          where: { shopId, email },
           include: { shop: true },
         });
         if (!user) return null;

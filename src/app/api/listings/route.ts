@@ -3,11 +3,15 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { canPostListings } from "@/lib/session";
+import { isKnownFitment } from "@/lib/vehicles";
 
 const schema = z.object({
   title: z.string().min(1),
   partNumber: z.string().min(1),
   condition: z.string().min(1),
+  make: z.string().min(1),
+  model: z.string().min(1),
+  year: z.coerce.number().int(),
   fitmentNotes: z.string().min(1),
   quantity: z.coerce.number().int().min(1),
   priceCents: z.coerce.number().int().min(1),
@@ -22,6 +26,9 @@ export async function POST(req: Request) {
 
   try {
     const data = schema.parse(await req.json());
+    if (!isKnownFitment(data.make, data.model, data.year)) {
+      return NextResponse.json({ error: "Choose a valid make, model, and year" }, { status: 400 });
+    }
     const listing = await prisma.listing.create({
       data: {
         ...data,

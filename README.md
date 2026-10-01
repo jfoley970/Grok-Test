@@ -1,6 +1,6 @@
-# BenchStock
+# Surplus
 
-Shop-to-shop auto parts marketplace. Mechanic shops list surplus inventory (posted by **service writers**), buy with **Stripe Connect** checkout, and propose **trades**.
+Shop-to-shop auto parts marketplace. Mechanic shops list surplus inventory (posted by **service writers**) and buy with **Stripe Connect** checkout.
 
 Repo: [jfoley970/Grok-Test](https://github.com/jfoley970/Grok-Test)
 
@@ -49,8 +49,8 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 
 ## Roles
 
-- **Owner** — registers the shop, manages Team + Stripe Connect, can post/buy/trade
-- **Service writer** — primary poster of surplus parts; can browse, buy, and trade
+- **Owner** — registers the shop, manages Team + Stripe Connect, can post and buy
+- **Service writer** — primary poster of surplus parts; can buy and sell
 
 ## Scripts
 

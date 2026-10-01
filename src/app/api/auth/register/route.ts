@@ -23,10 +23,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Email already registered" }, { status: 400 });
     }
 
+    const shopName = data.shopName.trim();
+    const taken = await prisma.$queryRaw<Array<{ id: string }>>`
+      SELECT id FROM Shop WHERE name = ${shopName} COLLATE NOCASE LIMIT 1
+    `;
+    if (taken.length > 0) {
+      return NextResponse.json({ error: "A shop with that name already exists" }, { status: 400 });
+    }
+
     const passwordHash = await bcrypt.hash(data.password, 10);
     const shop = await prisma.shop.create({
       data: {
-        name: data.shopName,
+        name: shopName,
         cityRegion: data.cityRegion,
         phone: data.phone || null,
         users: {

@@ -32,18 +32,18 @@ export function TeamForm() {
     <form onSubmit={onSubmit} className="mt-4 space-y-3">
       <label className="block">
         <span className="text-sm">Name</span>
-        <input name="name" required className="mt-1 w-full rounded border border-[var(--line)]/20 bg-[var(--field)] px-3 py-2" />
+        <input name="name" required className="mt-1 w-full border border-[var(--steel)] bg-[var(--panel)] px-3 py-2 text-[var(--paper)] outline-none focus:border-[var(--signal)]" />
       </label>
       <label className="block">
         <span className="text-sm">Email</span>
-        <input name="email" type="email" required className="mt-1 w-full rounded border border-[var(--line)]/20 bg-[var(--field)] px-3 py-2" />
+        <input name="email" type="email" required className="mt-1 w-full border border-[var(--steel)] bg-[var(--panel)] px-3 py-2 text-[var(--paper)] outline-none focus:border-[var(--signal)]" />
       </label>
       <label className="block">
         <span className="text-sm">Temporary password</span>
-        <input name="password" type="password" minLength={6} required className="mt-1 w-full rounded border border-[var(--line)]/20 bg-[var(--field)] px-3 py-2" />
+        <input name="password" type="password" minLength={6} required className="mt-1 w-full border border-[var(--steel)] bg-[var(--panel)] px-3 py-2 text-[var(--paper)] outline-none focus:border-[var(--signal)]" />
       </label>
       {error && <p className="text-sm text-[var(--signal)]">{error}</p>}
-      <button type="submit" disabled={loading} className="rounded bg-[var(--ink)] px-4 py-2 text-[var(--paper)] disabled:opacity-60">
+      <button type="submit" disabled={loading} className="bg-[var(--signal)] px-4 py-2 font-medium text-[var(--ink)] disabled:opacity-60">
         {loading ? "Adding…" : "Create login"}
       </button>
     </form>
