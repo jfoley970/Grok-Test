@@ -13,7 +13,7 @@ export async function SiteHeader() {
   return (
     <header className="border-b border-[var(--steel)] bg-[var(--ink)] text-[var(--paper)]">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4">
-        <Link href="/" className="font-[family-name:var(--font-display)] text-2xl tracking-wide">
+        <Link href="/" className="font-[family-name:var(--font-display)] text-3xl tracking-[0.12em]">
           SURPLUS
         </Link>
         {session?.user ? (

@@ -25,7 +25,7 @@ export function ConnectButton() {
         type="button"
         onClick={connect}
         disabled={loading}
-        className="rounded bg-[var(--signal)] px-5 py-2.5 font-medium text-[var(--ink)] disabled:opacity-60"
+        className="bg-[var(--signal)] px-5 py-2.5 font-semibold uppercase tracking-[0.12em] text-[var(--ink)] disabled:opacity-60"
       >
         {loading ? "Redirecting…" : "Connect / continue Stripe"}
       </button>

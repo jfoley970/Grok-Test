@@ -33,14 +33,16 @@ export default async function SellPage({
         <VehicleFilters make={params.make} model={params.model} year={params.year} />
       </div>
       <ListingGrid
-        empty="No matching parts posted yet."
+        empty="No matching parts on hand."
         listings={listings.map((listing) => ({
           id: listing.id,
           title: listing.title,
           year: listing.year,
           make: listing.make,
           model: listing.model,
+          brand: listing.brand,
           partNumber: listing.partNumber,
+          quantity: listing.quantity,
           priceCents: listing.priceCents,
           status: listing.status,
           photoPath: listing.photos[0]?.path,
@@ -48,7 +50,7 @@ export default async function SellPage({
       />
 
       <div className="mt-12 max-w-xl">
-        <h2 className="font-[family-name:var(--font-display)] text-3xl tracking-wide">Post a part</h2>
+        <h2 className="font-[family-name:var(--font-display)] text-3xl tracking-wide">Add part</h2>
         <SellForm />
       </div>
     </div>

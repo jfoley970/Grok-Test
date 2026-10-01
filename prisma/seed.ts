@@ -72,6 +72,7 @@ async function main() {
     data: [
       {
         title: "OEM front brake pads — Toyota Camry",
+        brand: "Toyota",
         partNumber: "04465-33470",
         condition: "New",
         make: "Toyota",
@@ -86,6 +87,7 @@ async function main() {
       },
       {
         title: "Alternator — Ford F-150 5.0",
+        brand: "Motorcraft",
         partNumber: "FL3Z-10346-A",
         condition: "Used — good",
         make: "Ford",
@@ -100,6 +102,7 @@ async function main() {
       },
       {
         title: "Radiator assembly — Honda Civic",
+        brand: "Honda",
         partNumber: "19010-5BA-A01",
         condition: "New open box",
         make: "Honda",
@@ -113,6 +116,7 @@ async function main() {
       },
       {
         title: "Ignition coil pack set",
+        brand: "ACDelco",
         partNumber: "UF648",
         condition: "New",
         make: "Chevrolet",

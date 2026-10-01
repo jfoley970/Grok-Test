@@ -39,6 +39,17 @@ export function VehicleFilters({
         <input type="hidden" name="q" value={query} />
       ) : null}
       <label className="block text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+        Year
+        <select name="year" defaultValue={year} className={`mt-1 block min-w-28 ${fieldClass}`}>
+          <option value="">Any</option>
+          {VEHICLE_YEARS.map((entry) => (
+            <option key={entry} value={entry}>
+              {entry}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="block text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
         Make
         <select
           name="make"
@@ -68,17 +79,6 @@ export function VehicleFilters({
         >
           <option value="">Any</option>
           {models.map((entry) => (
-            <option key={entry} value={entry}>
-              {entry}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="block text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
-        Year
-        <select name="year" defaultValue={year} className={`mt-1 block min-w-28 ${fieldClass}`}>
-          <option value="">Any</option>
-          {VEHICLE_YEARS.map((entry) => (
             <option key={entry} value={entry}>
               {entry}
             </option>

@@ -21,6 +21,7 @@ export default async function BrowsePage({
         ? {
             OR: [
               { title: { contains: query } },
+              { brand: { contains: query } },
               { partNumber: { contains: query } },
               { fitmentNotes: { contains: query } },
             ],
@@ -48,14 +49,16 @@ export default async function BrowsePage({
       </div>
 
       <ListingGrid
-        empty="No active listings yet."
+        empty="No parts on hand."
         listings={listings.map((listing) => ({
           id: listing.id,
           title: listing.title,
           year: listing.year,
           make: listing.make,
           model: listing.model,
+          brand: listing.brand,
           partNumber: listing.partNumber,
+          quantity: listing.quantity,
           priceCents: listing.priceCents,
           photoPath: listing.photos[0]?.path,
           meta: `${listing.shop.name} · ${listing.shop.cityRegion}`,

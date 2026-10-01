@@ -25,7 +25,7 @@ export default async function ListingDetailPage({
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <Link href="/browse" className="text-sm text-[var(--muted)] hover:text-[var(--signal)]">
-        ← Back to board
+        ← Back to Buy
       </Link>
       {listing.photos.length > 0 ? (
         <div className="mt-6 grid gap-3 sm:grid-cols-4">
@@ -46,8 +46,15 @@ export default async function ListingDetailPage({
       <h1 className="mt-6 font-[family-name:var(--font-display)] text-5xl tracking-wide">
         {listing.title}
       </h1>
-      <p className="mt-2 text-2xl">{formatMoney(listing.priceCents)}</p>
+      <p className="mt-2 text-2xl">
+        <span className="mr-2 text-sm uppercase tracking-[0.16em] text-[var(--muted)]">Sell price</span>
+        {formatMoney(listing.priceCents)}
+      </p>
       <dl className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div>
+          <dt className="text-sm text-[var(--muted)]">Brand</dt>
+          <dd>{listing.brand}</dd>
+        </div>
         <div>
           <dt className="text-sm text-[var(--muted)]">Part number</dt>
           <dd>{listing.partNumber}</dd>
@@ -57,7 +64,7 @@ export default async function ListingDetailPage({
           <dd>{listing.condition}</dd>
         </div>
         <div>
-          <dt className="text-sm text-[var(--muted)]">Quantity</dt>
+          <dt className="text-sm text-[var(--muted)]">Qty on hand</dt>
           <dd>{listing.quantity}</dd>
         </div>
         <div>
@@ -71,7 +78,7 @@ export default async function ListingDetailPage({
           </dd>
         </div>
         <div className="sm:col-span-2">
-          <dt className="text-sm text-[var(--muted)]">Fitment notes</dt>
+          <dt className="text-sm text-[var(--muted)]">Application notes</dt>
           <dd>{listing.fitmentNotes}</dd>
         </div>
         {listing.shippingNotes && (

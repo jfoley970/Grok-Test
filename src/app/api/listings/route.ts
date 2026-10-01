@@ -8,6 +8,7 @@ import { assertListingPhotos, saveListingPhotos } from "@/lib/photos";
 
 const schema = z.object({
   title: z.string().min(1),
+  brand: z.string().min(1),
   partNumber: z.string().min(1),
   condition: z.string().min(1),
   make: z.string().min(1),
@@ -29,6 +30,7 @@ export async function POST(req: Request) {
     const form = await req.formData();
     const data = schema.parse({
       title: form.get("title"),
+      brand: form.get("brand"),
       partNumber: form.get("partNumber"),
       condition: form.get("condition"),
       make: form.get("make"),
@@ -40,7 +42,7 @@ export async function POST(req: Request) {
       shippingNotes: form.get("shippingNotes") || undefined,
     });
     if (!isKnownFitment(data.make, data.model, data.year)) {
-      return NextResponse.json({ error: "Choose a valid make, model, and year" }, { status: 400 });
+      return NextResponse.json({ error: "Choose a valid year, make, and model" }, { status: 400 });
     }
 
     const files = assertListingPhotos(
@@ -73,6 +75,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: e.message }, { status: 400 });
     }
     console.error(e);
-    return NextResponse.json({ error: "Failed to create listing" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to add part" }, { status: 500 });
   }
 }

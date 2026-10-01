@@ -7,7 +7,9 @@ export type ListingCard = {
   year: number;
   make: string;
   model: string;
+  brand: string;
   partNumber: string;
+  quantity: number;
   priceCents: number;
   status?: string;
   photoPath?: string | null;
@@ -25,9 +27,9 @@ export function ListingGrid({ listings, empty }: { listings: ListingCard[]; empt
         <Link
           key={listing.id}
           href={`/listings/${listing.id}`}
-          className="border border-[var(--steel)] bg-[var(--panel)] transition hover:border-[var(--signal)]"
+          className="border border-[var(--steel)] bg-[var(--panel)] transition hover:border-[var(--paper)]"
         >
-          <div className="aspect-square bg-[var(--ink)]">
+          <div className="aspect-square border-b border-[var(--steel)] bg-[#0c0b09]">
             {listing.photoPath ? (
               <img src={listing.photoPath} alt="" className="h-full w-full object-cover" />
             ) : (
@@ -39,10 +41,15 @@ export function ListingGrid({ listings, empty }: { listings: ListingCard[]; empt
             <div className="text-sm text-[var(--muted)]">
               {listing.year} {listing.make} {listing.model}
             </div>
-            <div className="text-sm text-[var(--muted)]">#{listing.partNumber}</div>
+            <div className="text-sm text-[var(--muted)]">
+              {listing.brand} {listing.partNumber}
+            </div>
+            <div className="text-sm text-[var(--muted)]">Qty on hand {listing.quantity}</div>
             {listing.meta && <div className="text-sm text-[var(--muted)]">{listing.meta}</div>}
-            <div className="flex items-center justify-between gap-2 pt-1">
-              <span className="text-[var(--signal)]">{formatMoney(listing.priceCents)}</span>
+            <div className="flex items-center justify-between gap-2 pt-2">
+              <span className="font-[family-name:var(--font-display)] text-2xl leading-none tracking-wide text-[var(--paper)]">
+                {formatMoney(listing.priceCents)}
+              </span>
               {listing.status && listing.status !== "active" && (
                 <span className="text-xs uppercase tracking-wide text-[var(--muted)]">{listing.status}</span>
               )}

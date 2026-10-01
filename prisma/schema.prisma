@@ -58,6 +58,7 @@ model User {
 model Listing {
   id              String        @id @default(cuid())
   title           String
+  brand           String
   partNumber      String
   condition       String
   make            String

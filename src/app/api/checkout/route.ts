@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   });
 
   if (!listing || listing.status !== "active") {
-    return NextResponse.json({ error: "Listing not available" }, { status: 400 });
+    return NextResponse.json({ error: "Part not available" }, { status: 400 });
   }
   if (listing.shopId === session.user.shopId) {
     return NextResponse.json({ error: "Cannot buy your own listing" }, { status: 400 });

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Source_Serif_4 } from "next/font/google";
+import { Bebas_Neue, Barlow_Condensed } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
@@ -9,8 +9,9 @@ const display = Bebas_Neue({
   variable: "--font-display",
 });
 
-const body = Source_Serif_4({
+const body = Barlow_Condensed({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
   variable: "--font-body",
 });
 

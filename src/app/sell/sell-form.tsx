@@ -30,7 +30,7 @@ export function SellForm() {
     const data = await res.json();
     setLoading(false);
     if (!res.ok) {
-      setError(data.error || "Failed to list part");
+      setError(data.error || "Failed to add part");
       return;
     }
     router.push(`/listings/${data.id}`);
@@ -40,6 +40,17 @@ export function SellForm() {
   return (
     <form onSubmit={onSubmit} className="mt-8 space-y-4">
       <div className="grid gap-4 sm:grid-cols-3">
+        <label className="block">
+          <span className="text-sm">Year</span>
+          <select name="year" required defaultValue="" className={fieldClass}>
+            <option value="">Select</option>
+            {VEHICLE_YEARS.map((entry) => (
+              <option key={entry} value={entry}>
+                {entry}
+              </option>
+            ))}
+          </select>
+        </label>
         <label className="block">
           <span className="text-sm">Make</span>
           <select
@@ -78,47 +89,43 @@ export function SellForm() {
             ))}
           </select>
         </label>
-        <label className="block">
-          <span className="text-sm">Year</span>
-          <select name="year" required defaultValue="" className={fieldClass}>
-            <option value="">Select</option>
-            {VEHICLE_YEARS.map((entry) => (
-              <option key={entry} value={entry}>
-                {entry}
-              </option>
-            ))}
-          </select>
-        </label>
       </div>
       <label className="block">
-        <span className="text-sm">Title</span>
-        <input name="title" required placeholder="OEM brake caliper — RH" className={fieldClass} />
+        <span className="text-sm">Description</span>
+        <input name="title" required placeholder="Front brake pads — RH" className={fieldClass} />
       </label>
-      <label className="block">
-        <span className="text-sm">Part number</span>
-        <input name="partNumber" required className={fieldClass} />
-      </label>
+      <div className="grid grid-cols-2 gap-4">
+        <label className="block">
+          <span className="text-sm">Brand</span>
+          <input name="brand" required placeholder="Toyota" className={fieldClass} />
+        </label>
+        <label className="block">
+          <span className="text-sm">Part number</span>
+          <input name="partNumber" required className={fieldClass} />
+        </label>
+      </div>
       <label className="block">
         <span className="text-sm">Condition</span>
         <select name="condition" className={fieldClass}>
           <option>New</option>
           <option>New open box</option>
+          <option>Reman</option>
           <option>Used — good</option>
           <option>Used — fair</option>
-          <option>Core / rebuildable</option>
+          <option>Core</option>
         </select>
       </label>
       <label className="block">
-        <span className="text-sm">Fitment notes</span>
+        <span className="text-sm">Application notes</span>
         <textarea name="fitmentNotes" required rows={3} className={fieldClass} />
       </label>
       <div className="grid grid-cols-2 gap-4">
         <label className="block">
-          <span className="text-sm">Quantity</span>
+          <span className="text-sm">Qty on hand</span>
           <input name="quantity" type="number" min={1} defaultValue={1} required className={fieldClass} />
         </label>
         <label className="block">
-          <span className="text-sm">Price (USD)</span>
+          <span className="text-sm">Sell price (USD)</span>
           <input name="price" type="number" min={0.01} step={0.01} required className={fieldClass} />
         </label>
       </div>
@@ -139,7 +146,7 @@ export function SellForm() {
       </label>
       {error && <p className="text-sm text-[var(--signal)]">{error}</p>}
       <button type="submit" disabled={loading} className="bg-[var(--signal)] px-5 py-2.5 font-medium text-[var(--ink)] disabled:opacity-60">
-        {loading ? "Posting…" : "Post to marketplace"}
+        {loading ? "Adding…" : "Add part"}
       </button>
     </form>
   );
