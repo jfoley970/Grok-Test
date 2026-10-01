@@ -48,3 +48,7 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# uploaded listing photos
+/public/uploads/*
+!/public/uploads/.gitkeep

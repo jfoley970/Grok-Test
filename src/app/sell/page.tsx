@@ -1,10 +1,9 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { formatMoney } from "@/lib/money";
 import { fitmentWhere } from "@/lib/vehicles";
 import { VehicleFilters } from "@/components/vehicle-filters";
+import { ListingGrid } from "@/components/listing-grid";
 import { SellForm } from "./sell-form";
 
 export const dynamic = "force-dynamic";
@@ -22,6 +21,7 @@ export default async function SellPage({
       shopId: session.user.shopId,
       ...fitmentWhere(params.make, params.model, params.year),
     },
+    include: { photos: { orderBy: { sortOrder: "asc" }, take: 1 } },
     orderBy: { createdAt: "desc" },
   });
 
@@ -32,24 +32,20 @@ export default async function SellPage({
       <div className="mt-6">
         <VehicleFilters make={params.make} model={params.model} year={params.year} />
       </div>
-      <div className="mt-8 divide-y divide-[var(--steel)]/50 border-y border-[var(--steel)]">
-        {listings.length === 0 && <p className="py-10 text-[var(--muted)]">No matching parts posted yet.</p>}
-        {listings.map((listing) => (
-          <Link
-            key={listing.id}
-            href={`/listings/${listing.id}`}
-            className="grid gap-2 py-5 transition hover:bg-[var(--panel)] sm:grid-cols-[1fr_auto] sm:items-center"
-          >
-            <div>
-              <div className="font-medium">{listing.title}</div>
-              <div className="mt-1 text-sm text-[var(--muted)]">
-                {listing.year} {listing.make} {listing.model} · #{listing.partNumber} · {listing.status}
-              </div>
-            </div>
-            <div className="text-lg font-medium sm:text-right">{formatMoney(listing.priceCents)}</div>
-          </Link>
-        ))}
-      </div>
+      <ListingGrid
+        empty="No matching parts posted yet."
+        listings={listings.map((listing) => ({
+          id: listing.id,
+          title: listing.title,
+          year: listing.year,
+          make: listing.make,
+          model: listing.model,
+          partNumber: listing.partNumber,
+          priceCents: listing.priceCents,
+          status: listing.status,
+          photoPath: listing.photos[0]?.path,
+        }))}
+      />
 
       <div className="mt-12 max-w-xl">
         <h2 className="font-[family-name:var(--font-display)] text-3xl tracking-wide">Post a part</h2>

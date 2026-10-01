@@ -16,7 +16,7 @@ export default async function ListingDetailPage({
   const session = await auth();
   const listing = await prisma.listing.findUnique({
     where: { id },
-    include: { shop: true, postedBy: true },
+    include: { shop: true, postedBy: true, photos: { orderBy: { sortOrder: "asc" } } },
   });
   if (!listing) notFound();
 
@@ -27,7 +27,23 @@ export default async function ListingDetailPage({
       <Link href="/browse" className="text-sm text-[var(--muted)] hover:text-[var(--signal)]">
         ← Back to board
       </Link>
-      <h1 className="mt-4 font-[family-name:var(--font-display)] text-5xl tracking-wide">
+      {listing.photos.length > 0 ? (
+        <div className="mt-6 grid gap-3 sm:grid-cols-4">
+          {listing.photos.map((photo, index) => (
+            <img
+              key={photo.id}
+              src={photo.path}
+              alt=""
+              className={`w-full border border-[var(--steel)] object-cover ${index === 0 ? "aspect-square sm:col-span-2 sm:row-span-2" : "aspect-square"}`}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="mt-6 grid aspect-video place-items-center border border-[var(--steel)] text-[var(--muted)]">
+          No photo
+        </div>
+      )}
+      <h1 className="mt-6 font-[family-name:var(--font-display)] text-5xl tracking-wide">
         {listing.title}
       </h1>
       <p className="mt-2 text-2xl">{formatMoney(listing.priceCents)}</p>

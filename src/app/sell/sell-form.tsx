@@ -21,22 +21,11 @@ export function SellForm() {
     setError("");
     const form = new FormData(e.currentTarget);
     const price = parseFloat(String(form.get("price") || "0"));
-    const payload = {
-      title: form.get("title"),
-      partNumber: form.get("partNumber"),
-      condition: form.get("condition"),
-      make: form.get("make"),
-      model: form.get("model"),
-      year: Number(form.get("year")),
-      fitmentNotes: form.get("fitmentNotes"),
-      quantity: Number(form.get("quantity") || 1),
-      priceCents: Math.round(price * 100),
-      shippingNotes: form.get("shippingNotes") || undefined,
-    };
+    form.delete("price");
+    form.set("priceCents", String(Math.round(price * 100)));
     const res = await fetch("/api/listings", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: form,
     });
     const data = await res.json();
     setLoading(false);
@@ -136,6 +125,17 @@ export function SellForm() {
       <label className="block">
         <span className="text-sm">Shipping / pickup notes</span>
         <input name="shippingNotes" className={fieldClass} />
+      </label>
+      <label className="block">
+        <span className="text-sm">Photos</span>
+        <input
+          name="photos"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          multiple
+          className={`${fieldClass} file:mr-3 file:border-0 file:bg-[var(--steel)] file:px-3 file:py-1 file:text-[var(--paper)]`}
+        />
+        <span className="mt-1 block text-sm text-[var(--muted)]">Up to 6 JPEG, PNG, or WebP images. 5 MB each.</span>
       </label>
       {error && <p className="text-sm text-[var(--signal)]">{error}</p>}
       <button type="submit" disabled={loading} className="bg-[var(--signal)] px-5 py-2.5 font-medium text-[var(--ink)] disabled:opacity-60">
